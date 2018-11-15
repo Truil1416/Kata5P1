@@ -14,6 +14,7 @@ public class Kata5P1 {
     public static void main(String[] args) {
         Connection conn = connect();
         selectAll(conn);
+        createNewTable();
     }
     private static Connection connect() {
         Connection conn = null;
@@ -46,5 +47,22 @@ public class Kata5P1 {
         }
     }
 
-     
+    public static void createNewTable() {
+        // Cadena de conexión SQLite
+        String url = "jdbc:sqlite:mail.db";
+        // Instrucción SQL para crear nueva tabla
+        String sql = "CREATE TABLE IF NOT EXISTS direcc_email (\n"
+        + " id integer PRIMARY KEY AUTOINCREMENT,\n"
+        + " direccion text NOT NULL);";
+        try (Connection conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement()) {
+            // Se crea la nueva tabla
+            stmt.execute(sql);
+            System.out.println("Tabla creada");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+ 
+    
 }
